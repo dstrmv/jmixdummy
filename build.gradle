@@ -46,9 +46,9 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
-    //implementation 'io.jmix.cuba:jmix-cuba-starter'
-    implementation 'io.jmix.dynattr:jmix-dynattr-starter'
-    implementation 'io.jmix.dynattr:jmix-dynattr-ui-starter'
+    implementation 'io.jmix.cuba:jmix-cuba-starter'
+    //implementation 'io.jmix.dynattr:jmix-dynattr-starter'
+    //implementation 'io.jmix.dynattr:jmix-dynattr-ui-starter'
 
     // cluster
     implementation 'com.hazelcast:hazelcast'
