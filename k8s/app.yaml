@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmixdummy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jmixdummy
+  template:
+    metadata:
+      labels:
+        app: jmixdummy
+    spec:
+#      imagePullSecrets:
+#        - name: custom-docker-dev-secret
+      containers:
+        - image: jmixdummy:latest
+          imagePullPolicy: IfNotPresent
+          name: jmixdummy
+          env:
+            - name: DB_USER
+              value: cuba
+            - name: DB_PASSWORD
+              value: cuba
+            - name: DB_HOST
+              value: 10.5.56.53
+            - name: DB_NAME
+              value: dstrmv_test_2
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: HZ_NETWORK_JOIN_KUBERNETES_ENABLED
+              value: "true"
+#            - name: HZ_NETWORK_JOIN_KUBERNETES_SERVICEDNS
+#              value: "jmixdummy-hazelcast"
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 10" ]
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 5701
+              name: hazel
+              protocol: TCP
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmixdummy-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      name: jmixdummy-app
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: jmixdummy
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmixdummy-hazelcast
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 5701
+      name: jmixdummy-hazel
+      protocol: TCP
+      targetPort: hazel
+  selector:
+    app: jmixdummy
