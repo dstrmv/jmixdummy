@@ -1,0 +1,7 @@
+hazelcast-client:
+  cluster-name: dev
+  network:
+    kubernetes:
+      enabled: false
+#     service-name: jmixdummy-service
+      service-dns: hazelcast

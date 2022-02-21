@@ -12,11 +12,11 @@ spec:
       labels:
         app: jmixdummy
     spec:
-#      imagePullSecrets:
-#        - name: custom-docker-dev-secret
+      imagePullSecrets:
+        - name: custom-docker-dev-secret
       containers:
-        - image: jmixdummy:latest
-          imagePullPolicy: IfNotPresent
+        - image: custom-docker-dev.haulmont.com/projects/bulychevid/jmixdummy
+          imagePullPolicy: Always
           name: jmixdummy
           env:
             - name: DB_USER
@@ -29,10 +29,10 @@ spec:
               value: dstrmv_test_2
             - name: SPRING_PROFILES_ACTIVE
               value: k8s
-            - name: HZ_NETWORK_JOIN_KUBERNETES_ENABLED
+            - name: HZCLIENT_NETWORK_KUBERNETES_ENABLED
               value: "true"
-#            - name: HZ_NETWORK_JOIN_KUBERNETES_SERVICEDNS
-#              value: "jmixdummy-hazelcast"
+            - name: HZCLIENT_NETWORK_KUBERNETES_SERVICEDNS
+              value: "hazelcast"
           lifecycle:
             preStop:
               exec:
@@ -57,22 +57,5 @@ spec:
       name: jmixdummy-app
       protocol: TCP
       targetPort: http
-  selector:
-    app: jmixdummy
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: jmixdummy-hazelcast
-spec:
-  type: ClusterIP
-  clusterIP: None
-  ports:
-    - port: 5701
-      name: jmixdummy-hazel
-      protocol: TCP
-      targetPort: hazel
   selector:
     app: jmixdummy
