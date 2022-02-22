@@ -47,8 +47,8 @@ dependencies {
     }
 
     //implementation 'io.jmix.cuba:jmix-cuba-starter'
-    //implementation 'io.jmix.dynattr:jmix-dynattr-starter'
-    //implementation 'io.jmix.dynattr:jmix-dynattr-ui-starter'
+    implementation 'io.jmix.dynattr:jmix-dynattr-starter'
+    implementation 'io.jmix.dynattr:jmix-dynattr-ui-starter'
 
     // cluster
     implementation 'com.hazelcast:hazelcast:5.0.2'
