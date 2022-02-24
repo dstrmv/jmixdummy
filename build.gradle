@@ -53,6 +53,8 @@ dependencies {
     // cluster
     implementation 'com.hazelcast:hazelcast:5.0.2'
     implementation 'com.hazelcast:hazelcast-kubernetes:2.2.3'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 test {
